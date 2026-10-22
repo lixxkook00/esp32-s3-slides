@@ -553,6 +553,71 @@ button:disabled{cursor:default}
 #clock{min-width:58px;font-variant-numeric:tabular-nums;color:var(--mist)}
 #clock.run{color:var(--chalk)}
 
+/* full time: two columns, then the trophy reveal */
+.ftgrid.ft2{grid-template-columns:minmax(0,980px)}
+.ftgrid{transition:opacity .45s ease,transform .45s ease}
+.slide[data-id=fulltime]:has(.reward.on) .ftgrid{opacity:0;transform:scale(.96);pointer-events:none}
+.reward{position:absolute;left:128px;right:128px;top:372px;bottom:100px;display:grid;grid-template-columns:1fr 760px;gap:40px;align-items:center}
+.reward[data-b]:not(.on){transform:none}
+.rw-copy{display:flex;flex-direction:column;gap:18px}
+.rw-title{font:700 76px/1.02 var(--hand);color:var(--chalk)}
+.rw-title span{color:var(--chalk-y)}
+.rw-sub{font-size:28px;color:var(--mist)}
+.rw-load p{font-size:26px;margin-bottom:10px !important}
+.rw-load b{color:var(--chalk-y);font-variant-numeric:tabular-nums}
+.rw-bar{height:22px;border:3px solid var(--chalk);border-radius:12px;padding:3px;box-sizing:border-box}
+.rw-bar i{display:block;height:100%;width:0;border-radius:6px;background:repeating-linear-gradient(45deg,#8CC4EE 0 14px,#C8102E 14px 28px)}
+.rw-eta{font:700 38px/1.15 var(--hand);color:var(--chalk-r)}
+.rw-stage{position:relative;height:100%}
+.rw-board,.rw-ghost{position:absolute;left:50%;top:50%;width:300px;height:503px;margin:-251px 0 0 -150px}
+.rw-board{z-index:2;filter:drop-shadow(0 30px 30px rgba(0,0,0,.55))}
+.rw-board>img,.rw-ghost>img{width:300px;height:503px;display:block}
+.rw-ghost{opacity:0;z-index:1;filter:brightness(.55) drop-shadow(0 20px 20px rgba(0,0,0,.5))}
+.rw-scr{position:absolute;left:21.1px;top:100px;width:258.3px;height:334.4px;overflow:hidden;background:#05070a}
+.rw-messi{width:100%;height:100%;object-fit:cover;opacity:0;transform-origin:50% 80%}
+.rw-scan{position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0 2px,transparent 2px 4px);opacity:0}
+.rw-flash{position:absolute;left:0;right:0;top:50%;height:100%;margin-top:-50%;background:#fff;transform:scaleY(0);opacity:0}
+.rw-bubble{position:absolute;right:-10px;top:4%;width:300px;padding:16px 20px;background:#F4F1E8;color:var(--ink);border-radius:16px;font:700 30px/1.15 var(--hand);transform:scale(0);transform-origin:0 100%;z-index:3;box-shadow:0 14px 26px rgba(0,0,0,.45)}
+.rw-bubble::after{content:"";position:absolute;left:-14px;bottom:24px;border:14px solid transparent;border-right-color:#F4F1E8;border-left:0}
+.rw-bubble small{display:block;margin-top:6px;font:500 17px var(--body);color:var(--ink-soft)}
+.rw-x{position:absolute;left:0;top:0;z-index:4;font:700 50px var(--hand);color:var(--chalk-y);opacity:0;transform:rotate(-8deg)}
+.rw-stamp{position:absolute;left:50%;top:56%;z-index:4;padding:10px 26px;border:7px solid #E0675A;border-radius:10px;color:#E0675A;font:700 58px/1 var(--display);text-transform:uppercase;text-align:center;background:rgba(31,45,41,.82);opacity:0;transform:translate(-50%,-50%) rotate(-14deg) scale(3)}
+.rw-stamp small{font:600 24px var(--body);letter-spacing:6px}
+@property --pct{syntax:'<integer>';initial-value:0;inherits:false}
+.rw-pct{counter-reset:p var(--pct)}
+.rw-pct::after{content:counter(p) "%"}
+.reward.on .rw-board{animation:rwdrop 1s cubic-bezier(.3,1.25,.5,1) .15s both}
+.reward.on .rw-flash{animation:rwflash .6s ease-out 1.15s both}
+.reward.on .rw-messi{animation:rwon .4s ease-out 1.5s both,rwtalk 1.6s ease-in-out 2s infinite}
+.reward.on .rw-scan{animation:rwscan .4s ease-out 1.5s both}
+.reward.on .rw-bubble{animation:rwpop .5s cubic-bezier(.2,1.6,.4,1) 2.2s both}
+.reward.on .rw-ghost.g1{animation:rwfanL .7s cubic-bezier(.3,1.3,.5,1) 2.8s both}
+.reward.on .rw-ghost.g2{animation:rwfanR .7s cubic-bezier(.3,1.3,.5,1) 2.95s both}
+.reward.on .rw-x{animation:rwx .5s cubic-bezier(.2,1.6,.4,1) 3.4s both}
+.reward.on .rw-bar i{animation:rwbar 3s cubic-bezier(.1,.8,.2,1) 3.4s both,rwstall .9s steps(2) 6.5s infinite}
+.reward.on .rw-pct{animation:rwpct 3s cubic-bezier(.1,.8,.2,1) 3.4s both}
+.reward.on .rw-stamp{animation:rwstamp .45s cubic-bezier(.3,1.6,.5,1) 6.8s both}
+@keyframes rwdrop{0%{transform:translateY(-1000px) rotate(-30deg)}65%{transform:translateY(24px) rotate(5deg)}82%{transform:translateY(-10px) rotate(-2deg)}100%{transform:none}}
+@keyframes rwflash{0%{opacity:1;transform:scaleY(.01)}45%{opacity:1;transform:scaleY(1)}100%{opacity:0;transform:scaleY(1)}}
+@keyframes rwon{from{opacity:0;filter:brightness(3)}to{opacity:1;filter:none}}
+@keyframes rwtalk{50%{transform:scale(1.03) translateY(-3px)}}
+@keyframes rwscan{to{opacity:1}}
+@keyframes rwpop{from{transform:scale(0)}to{transform:scale(1)}}
+@keyframes rwfanL{from{opacity:0;transform:none}to{opacity:1;transform:translateX(-210px) rotate(-14deg) scale(.86)}}
+@keyframes rwfanR{from{opacity:0;transform:none}to{opacity:1;transform:translateX(210px) rotate(14deg) scale(.86)}}
+@keyframes rwx{from{opacity:0;transform:rotate(-8deg) scale(.3)}to{opacity:1;transform:rotate(-8deg)}}
+@keyframes rwbar{from{width:0}to{width:99%}}
+@keyframes rwpct{from{--pct:0}to{--pct:99}}
+@keyframes rwstall{50%{opacity:.45}}
+@keyframes rwstamp{from{opacity:0;transform:translate(-50%,-50%) rotate(-14deg) scale(3)}to{opacity:1;transform:translate(-50%,-50%) rotate(-14deg) scale(1)}}
+
+/* the last slide */
+.tk{display:flex;align-items:center;gap:64px;height:100%}
+.tk-left{flex:1;display:flex;flex-direction:column;gap:22px;min-width:0}
+.tk-title{font:700 132px/.98 var(--hand);color:var(--chalk)}
+.tk-title span{color:var(--chalk-y)}
+.tk .ftqr{width:300px;flex:none;display:flex;flex-direction:column;gap:14px}
+
 @media (prefers-reduced-motion: reduce){
   .r,.draw,.slide{transition:none}
   .scan::after,.pulse,.kidle,.ring,.flow,.halo{animation:none}
@@ -981,7 +1046,7 @@ button:disabled{cursor:default}
     <div class="trk-row"><span class="m">MESSI</span><div class="trk" data-trk="messi"></div></div>
     <p class="legend"><i class="g"></i>goal <i class="x"></i>missed <i></i>to come</p>
   </div>
-  <aside class="notes">The score carries over from the screen slides (the cards you picked as the better way). The board on the right tracks every penalty as you go: green for a goal, red for a miss. Every round is about something from today's talk. Hands up per team, then click the answer the team picked: the keeper does the rest. The keeper is always the rival: Messi in goal when Team CR7 shoots, Ronaldo when Team Messi shoots. Watch which questions people miss: that part of the talk needs a clearer explanation next time.</aside>
+  <aside class="notes">The score starts at 0-0: only the penalties count, the screen picks were just for fun. The board on the right tracks every penalty as you go: green for a goal, red for a miss. Every round is about something from today's talk. Hands up per team, then click the answer the team picked: the keeper does the rest. The keeper is always the rival: Messi in goal when Team CR7 shoots, Ronaldo when Team Messi shoots. Watch which questions people miss: that part of the talk needs a clearer explanation next time.</aside>
 </section>
 
 <!-- 19-23 penalties, built from data below -->
@@ -1033,25 +1098,47 @@ button:disabled{cursor:default}
     <p class="r" style="font:700 104px/1 var(--hand);font-variant-numeric:tabular-nums"><span class="c">CR7</span> <span data-sc="cr7">0</span> – <span data-sc="messi">0</span> <span class="m">MESSI</span></p>
     <p class="quote r" data-winner>It's a draw.</p>
   </div>
-  <div class="ftgrid">
+  <div class="ftgrid ft2">
     <div class="ftcol r">
       <p class="fth">Screen by screen <span class="muted" data-pickcount></span></p>
       <ol class="picks" data-picks></ol>
     </div>
-    <div class="ftcol r">
-      <p class="fth">After the whistle</p>
-      <div class="ftcard"><p class="eyebrow" style="letter-spacing:3px">Trophy</p><p>Prize to the shootout winners</p></div>
-      <div class="ftcard"><p class="eyebrow blue" style="letter-spacing:3px">Right of reply</p><p>30 seconds for one Messi fan</p></div>
-      <div class="ftcard"><p class="eyebrow" style="letter-spacing:3px;color:var(--chalk-y)">Vote: next signing</p><p><b>Room-free sign</b> · <b>"Hey GOAT, join standup"</b> · <b>Coffee-pot alarm</b></p></div>
+  </div>
+  <div class="reward abs" data-b="1">
+    <div class="rw-copy">
+      <p class="eyebrow">The trophy</p>
+      <h2 class="rw-title">A GOAT Desk for every player of <span data-rwteam>the winning team</span></h2>
+      <p class="rw-sub">ESP32-S3 · 2.8" touch screen · comes with a motivational speaker pre-installed</p>
+      <div class="rw-load"><p>Bringing the Champions League back to Camp Nou… <b class="rw-pct"></b></p><div class="rw-bar"><i></i></div></div>
+      <p class="rw-eta">Estimated delivery: the same day as that trophy.</p>
     </div>
-    <div class="ftcol ftqr r">
+    <div class="rw-stage">
+      <div class="rw-ghost g1"><img src="media/board-front.webp" alt=""><div class="rw-scr"><img class="rw-messi" src="media/messi-promise.webp" alt=""></div></div>
+      <div class="rw-ghost g2"><img src="media/board-front.webp" alt=""><div class="rw-scr"><img class="rw-messi" src="media/messi-promise.webp" alt=""></div></div>
+      <div class="rw-board"><img src="media/board-front.webp" alt="GOAT Desk board"><div class="rw-scr"><img class="rw-messi" src="media/messi-promise.webp" alt="Messi with a microphone"><i class="rw-scan"></i><i class="rw-flash"></i></div></div>
+      <div class="rw-bubble">"This season, the Champions League comes back to Camp Nou!"<small>Leo's promise, summer 2018</small></div>
+      <div class="rw-x">× every player</div>
+      <div class="rw-stamp">Still loading<br><small>since 2018</small></div>
+    </div>
+  </div>
+  <aside class="notes">Read the result first: the score is the penalty shootout only. Then the screen-by-screen table: "the room picked these, the shootout settled it." Then click for the trophy: "Every player on the winning team gets their own GOAT Desk..." let the board drop and the screen switch on, "...and it comes pre-loaded with the most motivational speech in football." Wait for the loading bar to stall at 99%. "It will be delivered on the same day Messi brings the Champions League back to Camp Nou. He promised in 2018. It's still loading." If Team Messi won, even better: "Your captain promised you this one personally."</aside>
+</section>
+
+<section class="slide has-bg" data-id="thanks">
+  <div class="tk">
+    <div class="tk-left">
+      <p class="eyebrow r">Post-match press conference</p>
+      <h2 class="tk-title r">Thank you.<br>Questions?<br><span>SIUUU!</span></h2>
+      <p class="muted r" style="font-size:30px">Every good question gets heart eyes from the mascot.</p>
+    </div>
+    <div class="shot r" data-ui="cover" style="width:480px;height:600px"></div>
+    <div class="ftqr r">
       <p class="fth">Take the deck home</p>
       <div class="qrbox" data-qr></div>
       <p class="qrurl" data-qrurl></p>
     </div>
   </div>
-  <h2 class="title r" style="margin-top:auto;font-size:80px">Thank you. Questions? SIUUU</h2>
-  <aside class="notes">Read the result, then the screen-by-screen table: "the room picked these, and the shootout settled it." Trophy to the shootout winners, 30 seconds of right of reply for one Messi fan, then a show of hands for the next signing: the room-free sign (presence sensor), "Hey GOAT, join standup" (microphone), or the coffee-pot alarm (weight sensor). Point at the QR so people can open the deck. Q&A is the press conference: tap the mascot for heart eyes after every good question.</aside>
+  <aside class="notes">Q&A is the post-match press conference. Tap the mascot on the real board for heart eyes after every good question. Point at the QR so people can open the deck later.</aside>
 </section>
 <svg id="jhold" aria-hidden="true" viewBox="0 0 1920 1080" width="1920" height="1080"><g id="jh"></g><g id="jhb"><ellipse rx="13" ry="5" cy="14" fill="#000" opacity=".3"/><g class="jhbs"><circle r="15" fill="#F4F1E8"/><path d="M0 -6.3 L6 -2 L3.7 5.1 L-3.7 5.1 L-6 -2Z" fill="#1F2D29"/><circle r="15" fill="none" stroke="#1F2D29" stroke-width="2"/></g></g></svg>
 <div id="boardframe" aria-hidden="true"><svg class="tray" viewBox="0 0 520 26"><rect x="0" y="4" width="520" height="22" rx="4" fill="#5A3C24"/><rect x="0" y="4" width="520" height="5" fill="#7B5636"/><rect x="60" y="-6" width="74" height="14" rx="6" fill="#F4F1E8"/><rect x="160" y="-5" width="46" height="12" rx="5" fill="#F2D06B"/><rect x="226" y="-5" width="40" height="12" rx="5" fill="#F28B7A"/><rect x="330" y="-14" width="120" height="22" rx="4" fill="#2B2B2B"/><rect x="330" y="-14" width="120" height="9" rx="3" fill="#8A6A45"/></svg></div><div id="fx" aria-hidden="true"><div class="flash"></div><div class="confetti"></div><div class="stamp"></div><div class="cheer"></div><div class="hero"></div><div class="fxball"><svg viewBox="-20 -20 40 40" width="72" height="72"><circle r="18" fill="#F7F7F2" stroke="#13241B" stroke-width="2"/><path d="M0 -7 L6.6 -2.2 L4.1 5.7 L-4.1 5.7 L-6.6 -2.2Z" fill="#13241B"/><path d="M0 -7V-17M6.6 -2.2L16 -5M4.1 5.7L10 14M-4.1 5.7L-10 14M-6.6 -2.2L-16 -5" stroke="#13241B" stroke-width="1.6"/></svg></div></div>
@@ -1300,6 +1387,7 @@ function renderScores(){
   renderTracker();
   document.querySelectorAll('[data-sc]').forEach(el=>el.textContent=S.score[el.dataset.sc]);
   const w=document.querySelector('[data-winner]'),a=S.score.cr7,b=S.score.messi;
+  const rt=document.querySelector('[data-rwteam]');if(rt)rt.textContent=a>b?'Team CR7':b>a?'Team Messi':'both teams (it\'s a draw, everyone wins)';
   w.textContent=a>b?'Team CR7 wins. SIUUU.':b>a?'Team Messi wins. The FIFA fathers are proud.':"It's a draw. Sudden death?";
   w.style.color=a>b?'var(--cr7)':b>a?'var(--messi)':'var(--mist)';
   document.querySelectorAll('[data-award]').forEach(el=>{
@@ -1447,8 +1535,11 @@ function renderPicks(){
 }
 (function qr(){
   const box=document.querySelector('[data-qr]'),label=document.querySelector('[data-qrurl]');
-  const here=location.protocol.startsWith('http')&&!/claude|anthropic|usercontent/.test(location.hostname)&&location.hostname!=='localhost';
-  const url=here?location.origin+location.pathname:'https://github.com/lixxkook00/esp32-s3-slides';
+  /* the presentation's own address (the Vercel site it is opened from) */
+  const DECK_URL='';
+  const here=location.protocol.startsWith('http')&&!/claude|anthropic|usercontent/.test(location.hostname);
+  const url=DECK_URL||(here?location.origin+location.pathname.replace(/index\.html$/,''):'');
+  if(!url){label.textContent='Open the deck from its Vercel link to show the QR';return}
   label.textContent=url.replace(/^https?:\/\//,'').replace(/\/$/,'');
   const draw=()=>{try{const q=qrcode(0,'M');q.addData(url);q.make();box.innerHTML=q.createSvgTag({cellSize:4,margin:0,scalable:true})}catch(e){}};
   if(window.qrcode)draw();else{const sc=document.createElement('script');sc.src='https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js';sc.onload=draw;document.head.appendChild(sc)}
@@ -1743,6 +1834,7 @@ function nextBuild(s){
   if(!hidden.length)return false;
   const g=Math.min(...hidden.map(e=>+e.dataset.b));
   hidden.filter(e=>+e.dataset.b===g).forEach(e=>e.classList.add('on'));
+  if(s.dataset.id==='fulltime'&&s.querySelector('.reward.on')){const a1=S.score.cr7,b1=S.score.messi;setTimeout(()=>confetti(document.getElementById('ftConfetti'),a1>=b1?'cr7':'messi',160),1300)}
   updatePick(s);updateCarousel(s);
   return true;
 }
